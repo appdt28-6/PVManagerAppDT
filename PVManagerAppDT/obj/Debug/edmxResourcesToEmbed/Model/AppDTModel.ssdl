@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="AppDTModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="PRODUCTOS_PV">
+    <Key>
+      <PropertyRef Name="Prod_Id" />
+      <PropertyRef Name="Subl_Id" />
+    </Key>
+    <Property Name="Prod_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Subl_Id" Type="int" Nullable="false" />
+    <Property Name="Prod_Codigo" Type="varchar" MaxLength="10" />
+    <Property Name="Prod_Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Prod_Price" Type="int" Nullable="false" />
+    <Property Name="Prod_Desc" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TICKETS_PV">
+    <Key>
+      <PropertyRef Name="Ticket_Id" />
+    </Key>
+    <Property Name="Ticket_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Ticket_Date" Type="datetime" Nullable="false" />
+    <Property Name="Ticket_Subtotal" Type="float" Nullable="false" />
+    <Property Name="Ticket_Factura" Type="int" Nullable="false" />
+    <Property Name="Sucu_Id" Type="int" Nullable="false" />
+    <Property Name="Ticket_Status" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="USUARIOS_PV">
+    <Key>
+      <PropertyRef Name="User_Id" />
+    </Key>
+    <Property Name="User_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="User_nombre" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="User_Login" Type="varchar" MaxLength="150" Nullable="false" />
+    <Property Name="User_Password" Type="varchar" MaxLength="150" Nullable="false" />
+    <Property Name="User_Tipo" Type="varchar" MaxLength="150" Nullable="false" />
+    <Property Name="Empl_Id" Type="varchar" MaxLength="150" Nullable="false" />
+  </EntityType>
+  <EntityType Name="VENTASTICKET_PV">
+    <Key>
+      <PropertyRef Name="Venta_Id" />
+      <PropertyRef Name="Ticket_Id" />
+      <PropertyRef Name="Prod_Id" />
+    </Key>
+    <Property Name="Venta_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Ticket_Id" Type="int" Nullable="false" />
+    <Property Name="Prod_Id" Type="int" Nullable="false" />
+    <Property Name="Venta_Cantidad" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="Prod_Price" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="Venta_Importe" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'DB_A09B1F_inter.dbo.vis_fillProduct' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vis_fillProduct">
+    <Key>
+      <PropertyRef Name="Prod_Id" />
+      <PropertyRef Name="Prod_Desc" />
+      <PropertyRef Name="Ticket_Id" />
+      <PropertyRef Name="Venta_Cantidad" />
+    </Key>
+    <Property Name="Prod_Id" Type="int" Nullable="false" />
+    <Property Name="Prod_Desc" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Ticket_Id" Type="int" Nullable="false" />
+    <Property Name="Venta_Cantidad" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'DB_A09B1F_inter.dbo.vis_fillTicket' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vis_fillTicket">
+    <Key>
+      <PropertyRef Name="Ticket_Id" />
+      <PropertyRef Name="Venta_Cantidad" />
+      <PropertyRef Name="Prod_Desc" />
+      <PropertyRef Name="Venta_Importe" />
+    </Key>
+    <Property Name="Ticket_Id" Type="int" Nullable="false" />
+    <Property Name="Venta_Cantidad" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="Prod_Desc" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Venta_Importe" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'DB_A09B1F_inter.dbo.vis_fillTickets' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vis_fillTickets">
+    <Key>
+      <PropertyRef Name="Id" />
+      <PropertyRef Name="Descripcion" />
+      <PropertyRef Name="Cantidad" />
+      <PropertyRef Name="Precio" />
+      <PropertyRef Name="Importe" />
+      <PropertyRef Name="Ticket" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="Descripcion" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Cantidad" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="Precio" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="Importe" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="Ticket" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityContainer Name="AppDTModelStoreContainer">
+    <EntitySet Name="PRODUCTOS_PV" EntityType="Self.PRODUCTOS_PV" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TICKETS_PV" EntityType="Self.TICKETS_PV" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="USUARIOS_PV" EntityType="Self.USUARIOS_PV" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="VENTASTICKET_PV" EntityType="Self.VENTASTICKET_PV" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="vis_fillProduct" EntityType="Self.vis_fillProduct" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+[vis_fillProduct].[Prod_Id] AS [Prod_Id], 
+[vis_fillProduct].[Prod_Desc] AS [Prod_Desc], 
+[vis_fillProduct].[Ticket_Id] AS [Ticket_Id], 
+[vis_fillProduct].[Venta_Cantidad] AS [Venta_Cantidad]
+FROM [dbo].[vis_fillProduct] AS [vis_fillProduct]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vis_fillTicket" EntityType="Self.vis_fillTicket" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+[vis_fillTicket].[Ticket_Id] AS [Ticket_Id], 
+[vis_fillTicket].[Venta_Cantidad] AS [Venta_Cantidad], 
+[vis_fillTicket].[Prod_Desc] AS [Prod_Desc], 
+[vis_fillTicket].[Venta_Importe] AS [Venta_Importe]
+FROM [dbo].[vis_fillTicket] AS [vis_fillTicket]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vis_fillTickets" EntityType="Self.vis_fillTickets" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+[vis_fillTickets].[Id] AS [Id], 
+[vis_fillTickets].[Descripcion] AS [Descripcion], 
+[vis_fillTickets].[Cantidad] AS [Cantidad], 
+[vis_fillTickets].[Precio] AS [Precio], 
+[vis_fillTickets].[Importe] AS [Importe], 
+[vis_fillTickets].[Ticket] AS [Ticket]
+FROM [dbo].[vis_fillTickets] AS [vis_fillTickets]</DefiningQuery>
+    </EntitySet>
+  </EntityContainer>
+</Schema>

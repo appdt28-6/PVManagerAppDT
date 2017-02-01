@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="AppDTModelStoreContainer" CdmEntityContainer="AppDTEntities">
+    <EntitySetMapping Name="PRODUCTOS_PV">
+      <EntityTypeMapping TypeName="AppDTModel.PRODUCTOS_PV">
+        <MappingFragment StoreEntitySet="PRODUCTOS_PV">
+          <ScalarProperty Name="Prod_Codigo" ColumnName="Prod_Codigo" />
+          <ScalarProperty Name="Prod_Id" ColumnName="Prod_Id" />
+          <ScalarProperty Name="Subl_Id" ColumnName="Subl_Id" />
+          <ScalarProperty Name="Prod_Name" ColumnName="Prod_Name" />
+          <ScalarProperty Name="Prod_Price" ColumnName="Prod_Price" />
+          <ScalarProperty Name="Prod_Desc" ColumnName="Prod_Desc" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="USUARIOS_PV">
+      <EntityTypeMapping TypeName="AppDTModel.USUARIOS_PV">
+        <MappingFragment StoreEntitySet="USUARIOS_PV">
+          <ScalarProperty Name="User_Id" ColumnName="User_Id" />
+          <ScalarProperty Name="User_nombre" ColumnName="User_nombre" />
+          <ScalarProperty Name="User_Login" ColumnName="User_Login" />
+          <ScalarProperty Name="User_Password" ColumnName="User_Password" />
+          <ScalarProperty Name="User_Tipo" ColumnName="User_Tipo" />
+          <ScalarProperty Name="Empl_Id" ColumnName="Empl_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VENTASTICKET_PV">
+      <EntityTypeMapping TypeName="AppDTModel.VENTASTICKET_PV">
+        <MappingFragment StoreEntitySet="VENTASTICKET_PV">
+          <ScalarProperty Name="Venta_Id" ColumnName="Venta_Id" />
+          <ScalarProperty Name="Ticket_Id" ColumnName="Ticket_Id" />
+          <ScalarProperty Name="Prod_Id" ColumnName="Prod_Id" />
+          <ScalarProperty Name="Venta_Cantidad" ColumnName="Venta_Cantidad" />
+          <ScalarProperty Name="Prod_Price" ColumnName="Prod_Price" />
+          <ScalarProperty Name="Venta_Importe" ColumnName="Venta_Importe" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vis_fillTickets">
+      <EntityTypeMapping TypeName="AppDTModel.vis_fillTickets">
+        <MappingFragment StoreEntitySet="vis_fillTickets">
+          <ScalarProperty Name="Ticket" ColumnName="Ticket" />
+          <ScalarProperty Name="Importe" ColumnName="Importe" />
+          <ScalarProperty Name="Precio" ColumnName="Precio" />
+          <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vis_fillProduct">
+      <EntityTypeMapping TypeName="AppDTModel.vis_fillProduct">
+        <MappingFragment StoreEntitySet="vis_fillProduct">
+          <ScalarProperty Name="Ticket_Id" ColumnName="Ticket_Id" />
+          <ScalarProperty Name="Prod_Id" ColumnName="Prod_Id" />
+          <ScalarProperty Name="Venta_Cantidad" ColumnName="Venta_Cantidad" />
+          <ScalarProperty Name="Prod_Desc" ColumnName="Prod_Desc" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vis_fillTicket">
+      <EntityTypeMapping TypeName="AppDTModel.vis_fillTicket">
+        <MappingFragment StoreEntitySet="vis_fillTicket">
+          <ScalarProperty Name="Venta_Importe" ColumnName="Venta_Importe" />
+          <ScalarProperty Name="Prod_Desc" ColumnName="Prod_Desc" />
+          <ScalarProperty Name="Venta_Cantidad" ColumnName="Venta_Cantidad" />
+          <ScalarProperty Name="Ticket_Id" ColumnName="Ticket_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TICKETS_PV">
+      <EntityTypeMapping TypeName="AppDTModel.TICKETS_PV">
+        <MappingFragment StoreEntitySet="TICKETS_PV">
+          <ScalarProperty Name="Ticket_Status" ColumnName="Ticket_Status" />
+          <ScalarProperty Name="Sucu_Id" ColumnName="Sucu_Id" />
+          <ScalarProperty Name="Ticket_Factura" ColumnName="Ticket_Factura" />
+          <ScalarProperty Name="Ticket_Subtotal" ColumnName="Ticket_Subtotal" />
+          <ScalarProperty Name="Ticket_Date" ColumnName="Ticket_Date" />
+          <ScalarProperty Name="Ticket_Id" ColumnName="Ticket_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
