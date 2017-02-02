@@ -36,13 +36,17 @@ namespace PVManagerAppDT
         {
             try
             {
-                var itemToRemove = db.VENTASTICKET_PV.SingleOrDefault(x => x.Ticket_Id == idTicket && x.Prod_Id== idProducto); //returns a single item.
+                var itemToRemove = db.VENTASTICKET_PV.Where(x => x.Ticket_Id == idTicket && x.Prod_Id== idProducto); //returns a single item.
 
-                if (itemToRemove != null)
+                foreach(var item in itemToRemove)
                 {
-                    db.VENTASTICKET_PV.Remove(itemToRemove);
-                    db.SaveChanges();
+                    var borrar = db.ps_DELETED_VENTA(item.Venta_Id);
                 }
+                //if (itemToRemove != null)
+                //{
+                //    db.VENTASTICKET_PV.Remove(itemToRemove);
+                //    db.SaveChanges();
+                //}
                 this.Close();
             }
             catch (Exception ex)

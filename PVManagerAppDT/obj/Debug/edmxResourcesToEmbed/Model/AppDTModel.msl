@@ -81,5 +81,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="ps_DELETED_VENTA" FunctionName="AppDTModel.Store.ps_DELETED_VENTA" />
   </EntityContainerMapping>
 </Mapping>

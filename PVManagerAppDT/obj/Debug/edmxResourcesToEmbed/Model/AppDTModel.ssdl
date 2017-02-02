@@ -93,6 +93,9 @@ warning 6002: The table/view 'DB_A09B1F_inter.dbo.vis_fillTickets' does not have
     <Property Name="Importe" Type="numeric" Precision="18" Scale="0" Nullable="false" />
     <Property Name="Ticket" Type="int" Nullable="false" />
   </EntityType>
+  <Function Name="ps_DELETED_VENTA" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="VentaId" Type="int" Mode="In" />
+  </Function>
   <EntityContainer Name="AppDTModelStoreContainer">
     <EntitySet Name="PRODUCTOS_PV" EntityType="Self.PRODUCTOS_PV" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TICKETS_PV" EntityType="Self.TICKETS_PV" Schema="dbo" store:Type="Tables" />

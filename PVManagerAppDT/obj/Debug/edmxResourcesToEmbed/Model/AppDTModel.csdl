@@ -44,6 +44,9 @@
     <EntitySet Name="vis_fillProduct" EntityType="AppDTModel.vis_fillProduct" />
     <EntitySet Name="vis_fillTicket" EntityType="AppDTModel.vis_fillTicket" />
     <EntitySet Name="TICKETS_PV" EntityType="AppDTModel.TICKETS_PV" />
+    <FunctionImport Name="ps_DELETED_VENTA">
+      <Parameter Name="VentaId" Mode="In" Type="Int32" />
+    </FunctionImport>
   </EntityContainer>
   <EntityType Name="vis_fillTickets">
     <Key>

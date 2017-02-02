@@ -12,6 +12,9 @@ namespace PVManagerAppDT.Model
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Objects;
+    using System.Data.Objects.DataClasses;
+    using System.Linq;
     
     public partial class AppDTEntities : DbContext
     {
@@ -32,5 +35,14 @@ namespace PVManagerAppDT.Model
         public DbSet<vis_fillProduct> vis_fillProduct { get; set; }
         public DbSet<vis_fillTicket> vis_fillTicket { get; set; }
         public DbSet<TICKETS_PV> TICKETS_PV { get; set; }
+    
+        public virtual int ps_DELETED_VENTA(Nullable<int> ventaId)
+        {
+            var ventaIdParameter = ventaId.HasValue ?
+                new ObjectParameter("VentaId", ventaId) :
+                new ObjectParameter("VentaId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ps_DELETED_VENTA", ventaIdParameter);
+        }
     }
 }
