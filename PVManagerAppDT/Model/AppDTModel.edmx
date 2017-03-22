@@ -5,6 +5,26 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="AppDTModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="PAQUETE_DETALLE_PV">
+          <Key>
+            <PropertyRef Name="Paqd_Id" />
+            <PropertyRef Name="Paqu_Id" />
+            <PropertyRef Name="Prod_Id" />
+          </Key>
+          <Property Name="Paqd_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Paqu_Id" Type="int" Nullable="false" />
+          <Property Name="Prod_Id" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Prod_Cant" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PAQUETE_PV">
+          <Key>
+            <PropertyRef Name="Paqu_Id" />
+          </Key>
+          <Property Name="Paqu_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Paqu_Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Paqu_Price" Type="int" Nullable="false" />
+          <Property Name="Paqu_promo" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
         <EntityType Name="PRODUCTOS_PV">
           <Key>
             <PropertyRef Name="Prod_Id" />
@@ -16,6 +36,7 @@
           <Property Name="Prod_Name" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Prod_Price" Type="int" Nullable="false" />
           <Property Name="Prod_Desc" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Prod_Stock" Type="int" />
         </EntityType>
         <EntityType Name="TICKETS_PV">
           <Key>
@@ -102,6 +123,8 @@ warning 6002: The table/view 'DB_A09B1F_inter.dbo.vis_fillTickets' does not have
           <Parameter Name="VentaId" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="AppDTModelStoreContainer">
+          <EntitySet Name="PAQUETE_DETALLE_PV" EntityType="Self.PAQUETE_DETALLE_PV" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PAQUETE_PV" EntityType="Self.PAQUETE_PV" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PRODUCTOS_PV" EntityType="Self.PRODUCTOS_PV" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TICKETS_PV" EntityType="Self.TICKETS_PV" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="USUARIOS_PV" EntityType="Self.USUARIOS_PV" Schema="dbo" store:Type="Tables" />
@@ -137,18 +160,6 @@ FROM [dbo].[vis_fillTickets] AS [vis_fillTickets]</DefiningQuery>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="AppDTModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="PRODUCTOS_PV">
-          <Key>
-            <PropertyRef Name="Prod_Id" />
-            <PropertyRef Name="Subl_Id" />
-          </Key>
-          <Property Name="Prod_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Subl_Id" Type="Int32" Nullable="false" />
-          <Property Name="Prod_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Prod_Price" Type="Int32" Nullable="false" />
-          <Property Name="Prod_Desc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Prod_Codigo" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="USUARIOS_PV">
           <Key>
             <PropertyRef Name="User_Id" />
@@ -174,7 +185,6 @@ FROM [dbo].[vis_fillTickets] AS [vis_fillTickets]</DefiningQuery>
           <Property Name="Venta_Importe" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
         </EntityType>
         <EntityContainer Name="AppDTEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="PRODUCTOS_PV" EntityType="Self.PRODUCTOS_PV" />
           <EntitySet Name="USUARIOS_PV" EntityType="Self.USUARIOS_PV" />
           <EntitySet Name="VENTASTICKET_PV" EntityType="Self.VENTASTICKET_PV" />
           <EntitySet Name="vis_fillTickets" EntityType="AppDTModel.vis_fillTickets" />
@@ -182,8 +192,11 @@ FROM [dbo].[vis_fillTickets] AS [vis_fillTickets]</DefiningQuery>
           <EntitySet Name="vis_fillTicket" EntityType="AppDTModel.vis_fillTicket" />
           <EntitySet Name="TICKETS_PV" EntityType="AppDTModel.TICKETS_PV" />
           <FunctionImport Name="ps_DELETED_VENTA" >
-            <Parameter Name="VentaId" Mode="In" Type="Int32" />
+          <Parameter Name="VentaId" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="PRODUCTOS_PV" EntityType="AppDTModel.PRODUCTOS_PV" />
+          <EntitySet Name="PAQUETE_DETALLE_PV" EntityType="AppDTModel.PAQUETE_DETALLE_PV" />
+          <EntitySet Name="PAQUETE_PV" EntityType="AppDTModel.PAQUETE_PV" />
         </EntityContainer>
         <EntityType Name="vis_fillTickets">
           <Key>
@@ -236,24 +249,45 @@ FROM [dbo].[vis_fillTickets] AS [vis_fillTickets]</DefiningQuery>
           <Property Name="Sucu_Id" Type="Int32" Nullable="false" />
           <Property Name="Ticket_Status" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="PRODUCTOS_PV">
+          <Key>
+            <PropertyRef Name="Prod_Id" />
+            <PropertyRef Name="Subl_Id" />
+          </Key>
+          <Property Name="Prod_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Subl_Id" Type="Int32" Nullable="false" />
+          <Property Name="Prod_Codigo" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Prod_Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Prod_Price" Type="Int32" Nullable="false" />
+          <Property Name="Prod_Desc" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Prod_Stock" Type="Int32" />
+        </EntityType>
+        <EntityType Name="PAQUETE_DETALLE_PV">
+          <Key>
+            <PropertyRef Name="Paqd_Id" />
+            <PropertyRef Name="Paqu_Id" />
+            <PropertyRef Name="Prod_Id" />
+          </Key>
+          <Property Name="Paqd_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Paqu_Id" Type="Int32" Nullable="false" />
+          <Property Name="Prod_Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Prod_Cant" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PAQUETE_PV">
+          <Key>
+            <PropertyRef Name="Paqu_Id" />
+          </Key>
+          <Property Name="Paqu_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Paqu_Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Paqu_Price" Type="Int32" Nullable="false" />
+          <Property Name="Paqu_promo" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="AppDTModelStoreContainer" CdmEntityContainer="AppDTEntities">
-          <EntitySetMapping Name="PRODUCTOS_PV">
-            <EntityTypeMapping TypeName="AppDTModel.PRODUCTOS_PV">
-              <MappingFragment StoreEntitySet="PRODUCTOS_PV">
-                <ScalarProperty Name="Prod_Codigo" ColumnName="Prod_Codigo" />
-                <ScalarProperty Name="Prod_Id" ColumnName="Prod_Id" />
-                <ScalarProperty Name="Subl_Id" ColumnName="Subl_Id" />
-                <ScalarProperty Name="Prod_Name" ColumnName="Prod_Name" />
-                <ScalarProperty Name="Prod_Price" ColumnName="Prod_Price" />
-                <ScalarProperty Name="Prod_Desc" ColumnName="Prod_Desc" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="USUARIOS_PV">
             <EntityTypeMapping TypeName="AppDTModel.USUARIOS_PV">
               <MappingFragment StoreEntitySet="USUARIOS_PV">
@@ -323,6 +357,39 @@ FROM [dbo].[vis_fillTickets] AS [vis_fillTickets]</DefiningQuery>
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="ps_DELETED_VENTA" FunctionName="AppDTModel.Store.ps_DELETED_VENTA" />
+          <EntitySetMapping Name="PRODUCTOS_PV">
+            <EntityTypeMapping TypeName="AppDTModel.PRODUCTOS_PV">
+              <MappingFragment StoreEntitySet="PRODUCTOS_PV">
+                <ScalarProperty Name="Prod_Stock" ColumnName="Prod_Stock" />
+                <ScalarProperty Name="Prod_Desc" ColumnName="Prod_Desc" />
+                <ScalarProperty Name="Prod_Price" ColumnName="Prod_Price" />
+                <ScalarProperty Name="Prod_Name" ColumnName="Prod_Name" />
+                <ScalarProperty Name="Prod_Codigo" ColumnName="Prod_Codigo" />
+                <ScalarProperty Name="Subl_Id" ColumnName="Subl_Id" />
+                <ScalarProperty Name="Prod_Id" ColumnName="Prod_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PAQUETE_DETALLE_PV">
+            <EntityTypeMapping TypeName="AppDTModel.PAQUETE_DETALLE_PV">
+              <MappingFragment StoreEntitySet="PAQUETE_DETALLE_PV">
+                <ScalarProperty Name="Prod_Cant" ColumnName="Prod_Cant" />
+                <ScalarProperty Name="Prod_Id" ColumnName="Prod_Id" />
+                <ScalarProperty Name="Paqu_Id" ColumnName="Paqu_Id" />
+                <ScalarProperty Name="Paqd_Id" ColumnName="Paqd_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PAQUETE_PV">
+            <EntityTypeMapping TypeName="AppDTModel.PAQUETE_PV">
+              <MappingFragment StoreEntitySet="PAQUETE_PV">
+                <ScalarProperty Name="Paqu_promo" ColumnName="Paqu_promo" />
+                <ScalarProperty Name="Paqu_Price" ColumnName="Paqu_Price" />
+                <ScalarProperty Name="Paqu_Name" ColumnName="Paqu_Name" />
+                <ScalarProperty Name="Paqu_Id" ColumnName="Paqu_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

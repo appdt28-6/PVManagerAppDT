@@ -12,3 +12,4 @@ C:\Users\Miguel Mendez\Documents\Visual Studio 2015\AppDT\PVManagerAppDT\PVManag
 C:\Users\Miguel Mendez\Documents\Visual Studio 2015\AppDT\PVManagerAppDT\PVManagerAppDT\obj\Debug\PVManagerAppDT.exe
 C:\Users\Miguel Mendez\Documents\Visual Studio 2015\AppDT\PVManagerAppDT\PVManagerAppDT\obj\Debug\PVManagerAppDT.pdb
 C:\Users\Miguel Mendez\Documents\Visual Studio 2015\AppDT\PVManagerAppDT\PVManagerAppDT\obj\Debug\PVManagerAppDT.csprojResolveAssemblyReference.cache
+C:\Users\Miguel Mendez\Documents\Visual Studio 2015\AppDT\PVManagerAppDT\PVManagerAppDT\obj\Debug\PVManagerAppDT.Panel.resources

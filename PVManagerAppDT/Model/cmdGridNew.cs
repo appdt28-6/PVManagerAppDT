@@ -30,5 +30,14 @@ namespace PVManagerAppDT.Model
             return (dbind);
         }
 
+        public BindingSource fillTicketsPaquete(int idTicket)
+        {
+            var reader = db.vis_fillTickets.Where(t => t.Ticket == idTicket).ToList();
+            dbind.DataSource = reader;
+            //reader.Close();
+            return (dbind);
+        }
+
+
     }
 }

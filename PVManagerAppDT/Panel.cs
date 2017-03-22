@@ -11,67 +11,158 @@ using System.Windows.Forms;
 
 namespace PVManagerAppDT
 {
-    public partial class RegistroVentaNew : Form
+    public partial class Panel : Form
+
     {
+
         AppDTEntities db = new AppDTEntities();
         cmdGridNew lee = new cmdGridNew();
         int idTicket;
         int idEmpleado;
-        public RegistroVentaNew(int _idTicket)
+        public Panel(int _idTicket)
         {
             idTicket = _idTicket;
             InitializeComponent();
             calculaTotal();
-            if (lblTotal.Text != "0"){ 
+            if (lblTotal.Text != "0")
+            {
                 gridVenta.DataSource = lee.fillTickets(idTicket);
             }
         }
 
-        private void btnVender_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
-            if (lblTotal.Text != "0")
-                gridVenta.DataSource = lee.fillTickets(idTicket);
-
-            agregaAventa(txtid.Text, txtprecio.Text, "1");
+            var paquete = db.PAQUETE_PV.Where(a=>a.Paqu_Id==1).ToList();
+            //foreach(var product in products)
+            //{
+            //    string precio = product.Prod_Price.ToString();
+            //    string producto = product.Prod_Id.ToString();
+            //    agregaAventa(producto, precio, "1");
+            //}
+            agregaAventa(paquete[0].Paqu_Id,paquete[0].Paqu_Price,1,1);
             gridVenta.DataSource = lee.fillTickets(idTicket);
             calculaTotal();
         }
 
-        void buscaTarget()
+        private void button2_Click(object sender, EventArgs e)
         {
-            var producto = db.PRODUCTOS_PV.Where(a => a.Prod_Codigo == barcode.Text).FirstOrDefault();
-            //reader = conexion.select("Select nombre,precio,idProducto from productos where codigoBarras ='" + barcode.Text + "' ");
-          try
-            {
-                txtnombre.Text = producto.Prod_Desc.ToString();
-                txtprecio.Text = producto.Prod_Price.ToString();
-                txtid.Text = producto.Prod_Id.ToString();
-            }
-            catch (Exception) {
-                MessageBox.Show("codigo no existe");
-            }
-           
+            MessageBox.Show("B2");
         }
 
-        void agregaAventa(string Producto, string Precio, string Cant)
+        private void button3_Click(object sender, EventArgs e)
         {
-            int product = Convert.ToInt32(Producto);
-            int precio = Convert.ToInt32(Precio);
-            decimal cant = Convert.ToDecimal(Cant);
+            MessageBox.Show("B3");
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("B4");
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("extra1");
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("extra2");
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("extra3");
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("extra4");
+        }
+
+        void agregaAventa(int Producto, int Precio, int Cant,int Tipo)
+        {
+            int product = Producto;
+            int precio = Precio;
+            int cant = Cant;
             try
             {
-                var Agrega = new VENTASTICKET_PV {
-                    Prod_Id= product,
-                    Venta_Cantidad= cant,
-                    Prod_Price= precio,
-                    Venta_Importe=(cant * precio),
-                    Ticket_Id= idTicket
 
-                };
-                db.VENTASTICKET_PV.Add(Agrega);
-                db.SaveChanges();
+                //revisa si es combo o producto
+                if (Tipo == 1){
+                    var desc = db.PAQUETE_DETALLE_PV.Where(a => a.Paqu_Id == product);
+                    foreach(var item in desc)
+                    {
+                        using (var ctx = new AppDTEntities())
+                        {
+                            int id = Convert.ToInt32(item.Prod_Id);
+                            var stock = db.PRODUCTOS_PV.Where(a => a.Prod_Id == id).ToList();
+                            int s1 = Convert.ToInt32(stock[0].Prod_Stock);
+                            int s2 = Convert.ToInt32(item.Prod_Cant);
+                            int resta =  s1-s2;
+                            if (resta > 0)
+                            {
+                                var producto = (from s in ctx.PRODUCTOS_PV
+                                                where s.Prod_Id ==id
+                                                select s).FirstOrDefault();
+
+                                producto.Prod_Stock = resta;
+                                // producto.Ticket_Subtotal = Convert.ToInt32(lblTotal.Text);
+
+                                int num = ctx.SaveChanges();
+                            }
+                            else
+                            {
+                                MessageBox.Show("No cuentas con stock suficiente");
+                            }
+
+
+                        }//resta por paquete
+                    }//foreach
+
+
+                }//si es venta por paquete
+                else
+                {
+
+                    var Agrega = new VENTASTICKET_PV
+                    {
+                        Prod_Id = product,
+                        Venta_Cantidad = cant,
+                        Prod_Price = precio,
+                        Venta_Importe = (cant * precio),
+                        Ticket_Id = idTicket
+
+                    };
+                    db.VENTASTICKET_PV.Add(Agrega);
+                    db.SaveChanges();
+                    ///Resto a strock
+                    /// 
+                    using (var ctx = new AppDTEntities())
+                    {
+                        var stock = db.PRODUCTOS_PV.Where(a => a.Prod_Id == product).ToList();
+                        var s1 = Convert.ToInt32(stock[0].Prod_Stock);
+                        int resta = s1 - cant;
+                        if (resta > 0)
+                        {
+                            var producto = (from s in ctx.PRODUCTOS_PV
+                                            where s.Prod_Id == product
+                                            select s).FirstOrDefault();
+
+                            producto.Prod_Stock = resta;
+                            // producto.Ticket_Subtotal = Convert.ToInt32(lblTotal.Text);
+
+                            int num = ctx.SaveChanges();
+                        }
+                        else
+                        {
+                            MessageBox.Show("No cuentas con stock suficiente");
+                        }
+
+                    }
+                }//si es solo
+
             }
-            catch (System.Exception)
+            catch (Exception e)
             {
                 MessageBox.Show("No hay productos listos para agregar");
             }
@@ -79,34 +170,27 @@ namespace PVManagerAppDT
 
         void calculaTotal()
         {
-            
+
             var Total = db.VENTASTICKET_PV.Where(t => t.Ticket_Id == idTicket).ToList();
             int contador = 0;
             foreach (var tot in Total)
             {
-                contador +=Convert.ToInt16(Total[0].Venta_Importe);
+                contador += Convert.ToInt16(Total[0].Venta_Importe);
             }
-                lblTotal.Text = contador.ToString();
+            lblTotal.Text = contador.ToString();
         }
 
-        private void btnRegresar_Click(object sender, EventArgs e)
-        {
-            IndexNew objindex = new IndexNew();
-            objindex.Show();
-            this.Close();
-        }
-
-        private void btnCerrar_Click(object sender, EventArgs e)
+        private void button9_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("¿Deseas facturar esta venta?",
-               "Alerta!", MessageBoxButtons.YesNo,
-               MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2, 0, false)
-               == DialogResult.Yes)
+              "Alerta!", MessageBoxButtons.YesNo,
+              MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2, 0, false)
+              == DialogResult.Yes)
             {
                 using (var ctx = new AppDTEntities())
                 {
                     var ticket = (from s in ctx.TICKETS_PV
-                                where s.Ticket_Id == idTicket
+                                  where s.Ticket_Id == idTicket
                                   select s).FirstOrDefault();
 
                     ticket.Ticket_Status = "terminado";
@@ -133,7 +217,7 @@ namespace PVManagerAppDT
                                   select s).FirstOrDefault();
 
                     ticket.Ticket_Status = "terminado";
-                    ticket.Ticket_Subtotal =Convert.ToInt32(lblTotal.Text);
+                    ticket.Ticket_Subtotal = Convert.ToInt32(lblTotal.Text);
 
                     int num = ctx.SaveChanges();
                 }
@@ -175,11 +259,12 @@ namespace PVManagerAppDT
             ticket.AddHeaderLine("\n");
             //ticket.AddHeaderLine("Articulo 2");
             var reader = db.vis_fillTicket.Where(a => a.Ticket_Id == idTicket).ToList();
-            foreach(var tick in reader){
+            foreach (var tick in reader)
+            {
                 ticket.AddHeaderLine(" " + tick.Venta_Cantidad + "      " + tick.Prod_Desc + "      $" + tick.Venta_Importe);
                 ticket.AddHeaderLine("\n");
             }
-           
+
             ticket.AddHeaderLine("\n");
             ticket.AddHeaderLine("----------------------");
             ticket.AddHeaderLine("\n");
@@ -232,61 +317,67 @@ namespace PVManagerAppDT
             try
             {
                 ticket.PrintTicket("Generic");
-                btnCerrar_Click(sender, e);
+                //btnCerrar_Click(sender, e);
             }
             catch (System.Exception)
             {
-                btnCerrar_Click(sender, e);
+               // btnCerrar_Click(sender, e);
                 MessageBox.Show("No se encontro la impresora");
             }
         }
 
-        private void btnAdult_Click(object sender, EventArgs e)
+        private void btnCerrar_Click(object sender, EventArgs e)
         {
-            barcode.Text = "201701";
-            buscaTarget();
-            agregaAventa(txtid.Text, txtprecio.Text, "1");
-            gridVenta.DataSource = lee.fillTickets(idTicket);
-            calculaTotal();
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            barcode.Text = "201702";
-            buscaTarget();
-            agregaAventa(txtid.Text, txtprecio.Text, "1");
-            gridVenta.DataSource = lee.fillTickets(idTicket);
-            calculaTotal();
-        }
-
-        private void btnllevar_Click(object sender, EventArgs e)
-        {
-            barcode.Text = "201703";
-            buscaTarget();
-            agregaAventa(txtid.Text, txtprecio.Text, "1");
-            gridVenta.DataSource = lee.fillTickets(idTicket);
-            calculaTotal();
-        }
-
-        private void barcode_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == 13)
+            if (MessageBox.Show("¿Deseas facturar esta venta?",
+               "Alerta!", MessageBoxButtons.YesNo,
+               MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2, 0, false)
+               == DialogResult.Yes)
             {
-                buscaTarget();
+                using (var ctx = new AppDTEntities())
+                {
+                    var ticket = (from s in ctx.TICKETS_PV
+                                  where s.Ticket_Id == idTicket
+                                  select s).FirstOrDefault();
+
+                    ticket.Ticket_Status = "terminado";
+                    ticket.Ticket_Subtotal = Convert.ToInt32(lblTotal.Text);
+
+                    int num = ctx.SaveChanges();
+                }
+
+                IndexNew objmesas = new IndexNew();
+                objmesas.Show();
+                this.Close();
+
+                //datosFactura factura = new datosFactura(idTicket);
+                //factura.Show();
+                //btnimprime_Click(sender, e);
+                //MessageBox.Show("Facturando");
+            }
+            else
+            {
+                using (var ctx = new AppDTEntities())
+                {
+                    var ticket = (from s in ctx.TICKETS_PV
+                                  where s.Ticket_Id == idTicket
+                                  select s).FirstOrDefault();
+
+                    ticket.Ticket_Status = "terminado";
+                    ticket.Ticket_Subtotal = Convert.ToInt32(lblTotal.Text);
+
+                    int num = ctx.SaveChanges();
+                }
+
+                IndexNew objmesas = new IndexNew();
+                objmesas.Show();
+                // btnimprime_Click(sender, e);
+                this.Close();
             }
         }
 
-        private void gridVenta_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void btnBack_Click(object sender, EventArgs e)
         {
-            if (e.RowIndex == -1)
-                return;
-            int idProducto;
-            idProducto = int.Parse(gridVenta.Rows[e.RowIndex].Cells[0].Value.ToString());
-            cambiaProductosNew objForm = new cambiaProductosNew(idProducto, idTicket);
-            objForm.ShowDialog();
-            RegistroVentaNew objVino = new RegistroVentaNew(idTicket);
-            objVino.Show();
-            this.Close();
+
         }
     }
 }

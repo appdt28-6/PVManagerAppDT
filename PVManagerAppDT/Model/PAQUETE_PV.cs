@@ -12,14 +12,11 @@ namespace PVManagerAppDT.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class PRODUCTOS_PV
+    public partial class PAQUETE_PV
     {
-        public int Prod_Id { get; set; }
-        public int Subl_Id { get; set; }
-        public string Prod_Codigo { get; set; }
-        public string Prod_Name { get; set; }
-        public int Prod_Price { get; set; }
-        public string Prod_Desc { get; set; }
-        public Nullable<int> Prod_Stock { get; set; }
+        public int Paqu_Id { get; set; }
+        public string Paqu_Name { get; set; }
+        public int Paqu_Price { get; set; }
+        public decimal Paqu_promo { get; set; }
     }
 }

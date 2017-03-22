@@ -44,13 +44,15 @@ namespace PVManagerAppDT
 
                 var idTicket = db.TICKETS_PV.Max(t => t.Ticket_Id);
                 
-                RegistroVentaNew objVino = new RegistroVentaNew(idTicket);
+                //RegistroVentaNew objVino = new RegistroVentaNew(idTicket);
+                Panel objVino = new Panel(idTicket);
                 objVino.Show();
 
             }
             else
             {
-                RegistroVentaNew objVino = new RegistroVentaNew(int.Parse(lblTicketTienda.Text));
+                //RegistroVentaNew objVino = new RegistroVentaNew(int.Parse(lblTicketTienda.Text));
+                Panel objVino = new Panel(int.Parse(lblTicketTienda.Text));
                 objVino.Show();
             }
             this.Close();

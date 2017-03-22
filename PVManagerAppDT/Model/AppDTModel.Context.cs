@@ -28,13 +28,15 @@ namespace PVManagerAppDT.Model
             throw new UnintentionalCodeFirstException();
         }
     
-        public DbSet<PRODUCTOS_PV> PRODUCTOS_PV { get; set; }
         public DbSet<USUARIOS_PV> USUARIOS_PV { get; set; }
         public DbSet<VENTASTICKET_PV> VENTASTICKET_PV { get; set; }
         public DbSet<vis_fillTickets> vis_fillTickets { get; set; }
         public DbSet<vis_fillProduct> vis_fillProduct { get; set; }
         public DbSet<vis_fillTicket> vis_fillTicket { get; set; }
         public DbSet<TICKETS_PV> TICKETS_PV { get; set; }
+        public DbSet<PRODUCTOS_PV> PRODUCTOS_PV { get; set; }
+        public DbSet<PAQUETE_DETALLE_PV> PAQUETE_DETALLE_PV { get; set; }
+        public DbSet<PAQUETE_PV> PAQUETE_PV { get; set; }
     
         public virtual int ps_DELETED_VENTA(Nullable<int> ventaId)
         {

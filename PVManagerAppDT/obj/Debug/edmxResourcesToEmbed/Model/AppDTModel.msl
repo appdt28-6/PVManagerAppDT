@@ -1,18 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="AppDTModelStoreContainer" CdmEntityContainer="AppDTEntities">
-    <EntitySetMapping Name="PRODUCTOS_PV">
-      <EntityTypeMapping TypeName="AppDTModel.PRODUCTOS_PV">
-        <MappingFragment StoreEntitySet="PRODUCTOS_PV">
-          <ScalarProperty Name="Prod_Codigo" ColumnName="Prod_Codigo" />
-          <ScalarProperty Name="Prod_Id" ColumnName="Prod_Id" />
-          <ScalarProperty Name="Subl_Id" ColumnName="Subl_Id" />
-          <ScalarProperty Name="Prod_Name" ColumnName="Prod_Name" />
-          <ScalarProperty Name="Prod_Price" ColumnName="Prod_Price" />
-          <ScalarProperty Name="Prod_Desc" ColumnName="Prod_Desc" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="USUARIOS_PV">
       <EntityTypeMapping TypeName="AppDTModel.USUARIOS_PV">
         <MappingFragment StoreEntitySet="USUARIOS_PV">
@@ -82,5 +70,38 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <FunctionImportMapping FunctionImportName="ps_DELETED_VENTA" FunctionName="AppDTModel.Store.ps_DELETED_VENTA" />
+    <EntitySetMapping Name="PRODUCTOS_PV">
+      <EntityTypeMapping TypeName="AppDTModel.PRODUCTOS_PV">
+        <MappingFragment StoreEntitySet="PRODUCTOS_PV">
+          <ScalarProperty Name="Prod_Stock" ColumnName="Prod_Stock" />
+          <ScalarProperty Name="Prod_Desc" ColumnName="Prod_Desc" />
+          <ScalarProperty Name="Prod_Price" ColumnName="Prod_Price" />
+          <ScalarProperty Name="Prod_Name" ColumnName="Prod_Name" />
+          <ScalarProperty Name="Prod_Codigo" ColumnName="Prod_Codigo" />
+          <ScalarProperty Name="Subl_Id" ColumnName="Subl_Id" />
+          <ScalarProperty Name="Prod_Id" ColumnName="Prod_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PAQUETE_DETALLE_PV">
+      <EntityTypeMapping TypeName="AppDTModel.PAQUETE_DETALLE_PV">
+        <MappingFragment StoreEntitySet="PAQUETE_DETALLE_PV">
+          <ScalarProperty Name="Prod_Cant" ColumnName="Prod_Cant" />
+          <ScalarProperty Name="Prod_Id" ColumnName="Prod_Id" />
+          <ScalarProperty Name="Paqu_Id" ColumnName="Paqu_Id" />
+          <ScalarProperty Name="Paqd_Id" ColumnName="Paqd_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PAQUETE_PV">
+      <EntityTypeMapping TypeName="AppDTModel.PAQUETE_PV">
+        <MappingFragment StoreEntitySet="PAQUETE_PV">
+          <ScalarProperty Name="Paqu_promo" ColumnName="Paqu_promo" />
+          <ScalarProperty Name="Paqu_Price" ColumnName="Paqu_Price" />
+          <ScalarProperty Name="Paqu_Name" ColumnName="Paqu_Name" />
+          <ScalarProperty Name="Paqu_Id" ColumnName="Paqu_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

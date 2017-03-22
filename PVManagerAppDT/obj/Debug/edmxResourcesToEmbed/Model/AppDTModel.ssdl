@@ -1,5 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="AppDTModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="PAQUETE_DETALLE_PV">
+    <Key>
+      <PropertyRef Name="Paqd_Id" />
+      <PropertyRef Name="Paqu_Id" />
+      <PropertyRef Name="Prod_Id" />
+    </Key>
+    <Property Name="Paqd_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Paqu_Id" Type="int" Nullable="false" />
+    <Property Name="Prod_Id" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Prod_Cant" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PAQUETE_PV">
+    <Key>
+      <PropertyRef Name="Paqu_Id" />
+    </Key>
+    <Property Name="Paqu_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Paqu_Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Paqu_Price" Type="int" Nullable="false" />
+    <Property Name="Paqu_promo" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+  </EntityType>
   <EntityType Name="PRODUCTOS_PV">
     <Key>
       <PropertyRef Name="Prod_Id" />
@@ -11,6 +31,7 @@
     <Property Name="Prod_Name" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Prod_Price" Type="int" Nullable="false" />
     <Property Name="Prod_Desc" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Prod_Stock" Type="int" />
   </EntityType>
   <EntityType Name="TICKETS_PV">
     <Key>
@@ -97,6 +118,8 @@ warning 6002: The table/view 'DB_A09B1F_inter.dbo.vis_fillTickets' does not have
     <Parameter Name="VentaId" Type="int" Mode="In" />
   </Function>
   <EntityContainer Name="AppDTModelStoreContainer">
+    <EntitySet Name="PAQUETE_DETALLE_PV" EntityType="Self.PAQUETE_DETALLE_PV" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PAQUETE_PV" EntityType="Self.PAQUETE_PV" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PRODUCTOS_PV" EntityType="Self.PRODUCTOS_PV" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TICKETS_PV" EntityType="Self.TICKETS_PV" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="USUARIOS_PV" EntityType="Self.USUARIOS_PV" Schema="dbo" store:Type="Tables" />
