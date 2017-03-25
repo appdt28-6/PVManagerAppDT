@@ -27,9 +27,7 @@
   <EntityContainer Name="AppDTEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="USUARIOS_PV" EntityType="Self.USUARIOS_PV" />
     <EntitySet Name="VENTASTICKET_PV" EntityType="Self.VENTASTICKET_PV" />
-    <EntitySet Name="vis_fillTickets" EntityType="AppDTModel.vis_fillTickets" />
     <EntitySet Name="vis_fillProduct" EntityType="AppDTModel.vis_fillProduct" />
-    <EntitySet Name="vis_fillTicket" EntityType="AppDTModel.vis_fillTicket" />
     <EntitySet Name="TICKETS_PV" EntityType="AppDTModel.TICKETS_PV" />
     <FunctionImport Name="ps_DELETED_VENTA">
       <Parameter Name="VentaId" Mode="In" Type="Int32" />
@@ -37,23 +35,15 @@
     <EntitySet Name="PRODUCTOS_PV" EntityType="AppDTModel.PRODUCTOS_PV" />
     <EntitySet Name="PAQUETE_DETALLE_PV" EntityType="AppDTModel.PAQUETE_DETALLE_PV" />
     <EntitySet Name="PAQUETE_PV" EntityType="AppDTModel.PAQUETE_PV" />
+    <EntitySet Name="PEDIDO_SUGERIDO_PV" EntityType="AppDTModel.PEDIDO_SUGERIDO_PV" />
+    <EntitySet Name="vis_fillTickets" EntityType="AppDTModel.vis_fillTickets" />
+    <FunctionImport Name="test_appdt" ReturnType="Collection(Int32)">
+      <Parameter Name="Paquete" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Stock_Paquete" ReturnType="Collection(Int32)">
+      <Parameter Name="Paquete" Mode="In" Type="Int32" />
+    </FunctionImport>
   </EntityContainer>
-  <EntityType Name="vis_fillTickets">
-    <Key>
-      <PropertyRef Name="Id" />
-      <PropertyRef Name="Descripcion" />
-      <PropertyRef Name="Cantidad" />
-      <PropertyRef Name="Precio" />
-      <PropertyRef Name="Importe" />
-      <PropertyRef Name="Ticket" />
-    </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" />
-    <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="Cantidad" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
-    <Property Name="Precio" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
-    <Property Name="Importe" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
-    <Property Name="Ticket" Type="Int32" Nullable="false" />
-  </EntityType>
   <EntityType Name="vis_fillProduct">
     <Key>
       <PropertyRef Name="Prod_Desc" />
@@ -65,18 +55,6 @@
     <Property Name="Venta_Cantidad" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
     <Property Name="Prod_Id" Type="Int32" Nullable="false" />
     <Property Name="Ticket_Id" Type="Int32" Nullable="false" />
-  </EntityType>
-  <EntityType Name="vis_fillTicket">
-    <Key>
-      <PropertyRef Name="Ticket_Id" />
-      <PropertyRef Name="Venta_Cantidad" />
-      <PropertyRef Name="Prod_Desc" />
-      <PropertyRef Name="Venta_Importe" />
-    </Key>
-    <Property Name="Ticket_Id" Type="Int32" Nullable="false" />
-    <Property Name="Venta_Cantidad" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
-    <Property Name="Prod_Desc" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="Venta_Importe" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
   </EntityType>
   <EntityType Name="TICKETS_PV">
     <Key>
@@ -121,5 +99,34 @@
     <Property Name="Paqu_Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="Paqu_Price" Type="Int32" Nullable="false" />
     <Property Name="Paqu_promo" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+  </EntityType>
+  <EntityType Name="PEDIDO_SUGERIDO_PV">
+    <Key>
+      <PropertyRef Name="Pedi_Id" />
+      <PropertyRef Name="Sucu_Id" />
+      <PropertyRef Name="Prod_Id" />
+    </Key>
+    <Property Name="Pedi_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Sucu_Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Prod_Id" Type="Int32" Nullable="false" />
+    <Property Name="Prod_Stock" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+    <Property Name="Prod_date" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Pedi_Status" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="vis_fillTickets">
+    <Key>
+      <PropertyRef Name="Id" />
+      <PropertyRef Name="Descripcion" />
+      <PropertyRef Name="Cantidad" />
+      <PropertyRef Name="Precio" />
+      <PropertyRef Name="Importe" />
+      <PropertyRef Name="Ticket" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Cantidad" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+    <Property Name="Precio" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+    <Property Name="Importe" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+    <Property Name="Ticket" Type="Int32" Nullable="false" />
   </EntityType>
 </Schema>

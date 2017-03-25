@@ -20,6 +20,19 @@
     <Property Name="Paqu_Price" Type="int" Nullable="false" />
     <Property Name="Paqu_promo" Type="numeric" Precision="18" Scale="0" Nullable="false" />
   </EntityType>
+  <EntityType Name="PEDIDO_SUGERIDO_PV">
+    <Key>
+      <PropertyRef Name="Pedi_Id" />
+      <PropertyRef Name="Sucu_Id" />
+      <PropertyRef Name="Prod_Id" />
+    </Key>
+    <Property Name="Pedi_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Sucu_Id" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Prod_Id" Type="int" Nullable="false" />
+    <Property Name="Prod_Stock" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="Prod_date" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Pedi_Status" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="PRODUCTOS_PV">
     <Key>
       <PropertyRef Name="Prod_Id" />
@@ -83,20 +96,6 @@ warning 6002: The table/view 'DB_A09B1F_inter.dbo.vis_fillProduct' does not have
     <Property Name="Venta_Cantidad" Type="numeric" Precision="18" Scale="0" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
-warning 6002: The table/view 'DB_A09B1F_inter.dbo.vis_fillTicket' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-  <EntityType Name="vis_fillTicket">
-    <Key>
-      <PropertyRef Name="Ticket_Id" />
-      <PropertyRef Name="Venta_Cantidad" />
-      <PropertyRef Name="Prod_Desc" />
-      <PropertyRef Name="Venta_Importe" />
-    </Key>
-    <Property Name="Ticket_Id" Type="int" Nullable="false" />
-    <Property Name="Venta_Cantidad" Type="numeric" Precision="18" Scale="0" Nullable="false" />
-    <Property Name="Prod_Desc" Type="varchar" MaxLength="50" Nullable="false" />
-    <Property Name="Venta_Importe" Type="numeric" Precision="18" Scale="0" Nullable="false" />
-  </EntityType>
-  <!--Errors Found During Generation:
 warning 6002: The table/view 'DB_A09B1F_inter.dbo.vis_fillTickets' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="vis_fillTickets">
     <Key>
@@ -117,9 +116,16 @@ warning 6002: The table/view 'DB_A09B1F_inter.dbo.vis_fillTickets' does not have
   <Function Name="ps_DELETED_VENTA" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="VentaId" Type="int" Mode="In" />
   </Function>
+  <Function Name="sp_Stock_Paquete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Paquete" Type="int" Mode="In" />
+  </Function>
+  <Function Name="test_appdt" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Paquete" Type="int" Mode="In" />
+  </Function>
   <EntityContainer Name="AppDTModelStoreContainer">
     <EntitySet Name="PAQUETE_DETALLE_PV" EntityType="Self.PAQUETE_DETALLE_PV" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PAQUETE_PV" EntityType="Self.PAQUETE_PV" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PEDIDO_SUGERIDO_PV" EntityType="Self.PEDIDO_SUGERIDO_PV" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PRODUCTOS_PV" EntityType="Self.PRODUCTOS_PV" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TICKETS_PV" EntityType="Self.TICKETS_PV" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="USUARIOS_PV" EntityType="Self.USUARIOS_PV" Schema="dbo" store:Type="Tables" />
@@ -131,14 +137,6 @@ warning 6002: The table/view 'DB_A09B1F_inter.dbo.vis_fillTickets' does not have
 [vis_fillProduct].[Ticket_Id] AS [Ticket_Id], 
 [vis_fillProduct].[Venta_Cantidad] AS [Venta_Cantidad]
 FROM [dbo].[vis_fillProduct] AS [vis_fillProduct]</DefiningQuery>
-    </EntitySet>
-    <EntitySet Name="vis_fillTicket" EntityType="Self.vis_fillTicket" store:Type="Views" store:Schema="dbo">
-      <DefiningQuery>SELECT 
-[vis_fillTicket].[Ticket_Id] AS [Ticket_Id], 
-[vis_fillTicket].[Venta_Cantidad] AS [Venta_Cantidad], 
-[vis_fillTicket].[Prod_Desc] AS [Prod_Desc], 
-[vis_fillTicket].[Venta_Importe] AS [Venta_Importe]
-FROM [dbo].[vis_fillTicket] AS [vis_fillTicket]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="vis_fillTickets" EntityType="Self.vis_fillTickets" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 

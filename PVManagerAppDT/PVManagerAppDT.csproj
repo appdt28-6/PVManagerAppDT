@@ -112,6 +112,10 @@
     <Compile Include="Model\PAQUETE_PV.cs">
       <DependentUpon>AppDTModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\PedidoSugerido.cs" />
+    <Compile Include="Model\PEDIDO_SUGERIDO_PV.cs">
+      <DependentUpon>AppDTModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\PRODUCTOS_PV.cs">
       <DependentUpon>AppDTModel.tt</DependentUpon>
     </Compile>
@@ -126,9 +130,6 @@
       <DependentUpon>AppDTModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\vis_fillProduct.cs">
-      <DependentUpon>AppDTModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\vis_fillTicket.cs">
       <DependentUpon>AppDTModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\vis_fillTickets.cs">

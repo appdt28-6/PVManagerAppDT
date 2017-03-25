@@ -7,13 +7,13 @@
       <Diagram DiagramId="c0f3741e724642998eceff1cf4907cc6" Name="Diagram1">
         <EntityTypeShape EntityType="AppDTModel.USUARIOS_PV" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="AppDTModel.VENTASTICKET_PV" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="AppDTModel.vis_fillTickets" Width="1.5" PointX="5.375" PointY="0.75" />
         <EntityTypeShape EntityType="AppDTModel.vis_fillProduct" Width="1.5" PointX="5.375" PointY="3.75" />
-        <EntityTypeShape EntityType="AppDTModel.vis_fillTicket" Width="1.5" PointX="0.75" PointY="6.75" />
         <EntityTypeShape EntityType="AppDTModel.TICKETS_PV" Width="1.5" PointX="3.375" PointY="6.75" />
         <EntityTypeShape EntityType="AppDTModel.PRODUCTOS_PV" Width="1.5" PointX="5.375" PointY="6.75" />
         <EntityTypeShape EntityType="AppDTModel.PAQUETE_DETALLE_PV" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="AppDTModel.PAQUETE_PV" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="AppDTModel.PEDIDO_SUGERIDO_PV" Width="1.5" PointX="7.375" PointY="0.75" />
+        <EntityTypeShape EntityType="AppDTModel.vis_fillTickets" Width="1.5" PointX="7.375" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -12,11 +12,13 @@ namespace PVManagerAppDT.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class vis_fillTicket
+    public partial class PEDIDO_SUGERIDO_PV
     {
-        public int Ticket_Id { get; set; }
-        public decimal Venta_Cantidad { get; set; }
-        public string Prod_Desc { get; set; }
-        public decimal Venta_Importe { get; set; }
+        public int Pedi_Id { get; set; }
+        public string Sucu_Id { get; set; }
+        public int Prod_Id { get; set; }
+        public decimal Prod_Stock { get; set; }
+        public string Prod_date { get; set; }
+        public int Pedi_Status { get; set; }
     }
 }

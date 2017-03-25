@@ -14,7 +14,6 @@ namespace PVManagerAppDT
     public partial class Panel : Form
 
     {
-
         AppDTEntities db = new AppDTEntities();
         cmdGridNew lee = new cmdGridNew();
         int idTicket;
@@ -32,16 +31,30 @@ namespace PVManagerAppDT
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var paquete = db.PAQUETE_PV.Where(a=>a.Paqu_Id==1).ToList();
-            //foreach(var product in products)
-            //{
-            //    string precio = product.Prod_Price.ToString();
-            //    string producto = product.Prod_Id.ToString();
-            //    agregaAventa(producto, precio, "1");
-            //}
-            agregaAventa(paquete[0].Paqu_Id,paquete[0].Paqu_Price,1,1);
-            gridVenta.DataSource = lee.fillTickets(idTicket);
-            calculaTotal();
+            try
+            {
+            var desc = db.sp_Stock_Paquete(1).ToList();
+            int op = Convert.ToInt32(desc[0].Value);
+           
+                if (op == 1)
+                {
+                    MessageBox.Show("No hay productos listos para agregar");
+                }
+                else
+                {
+                   
+                    var paq = db.PAQUETE_PV.Where(a => a.Paqu_Id == 1).ToList();
+                    //pedido_sugerido(paq[0].Paqu_Id, 1, 1);
+                    agregaAventa(paq[0].Paqu_Id, paq[0].Paqu_Price, 1);
+                    gridVenta.DataSource = lee.fillTickets(idTicket);
+                    calculaTotal();
+                }
+                
+            }
+            catch(Exception qe)
+            {
+                MessageBox.Show("No hay productos listos para agregar");
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -61,7 +74,26 @@ namespace PVManagerAppDT
 
         private void button5_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("extra1");
+           
+           try
+            {
+                int a = GetStockSimple(1, 2).add;
+                if (a <= 0)
+                {
+                    MessageBox.Show("No hay productos listos para agregar");
+                }
+                else
+                {
+                    var producto = db.PRODUCTOS_PV.Where(b => b.Prod_Id == 1).ToList();
+                    agregaAventa(producto[0].Prod_Id, producto[0].Prod_Price, 1);
+                    gridVenta.DataSource = lee.fillTickets(idTicket);
+                    calculaTotal();
+                }
+            }
+            catch (Exception qe)
+            {
+                MessageBox.Show("No hay productos listos para agregar");
+            }
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -79,87 +111,136 @@ namespace PVManagerAppDT
             MessageBox.Show("extra4");
         }
 
-        void agregaAventa(int Producto, int Precio, int Cant,int Tipo)
+        private static PedidoSugerido GetStockSimple(int Producto, int Cant)
         {
-            int product = Producto;
-            int precio = Precio;
-            int cant = Cant;
+
+            using (var db = new AppDTEntities())
+            {
+
+                var stock = db.PRODUCTOS_PV.Where(a => a.Prod_Id == Producto).ToList();
+                var s1 = Convert.ToInt32(stock[0].Prod_Stock);
+                if (s1 <= 2)
+                {
+                    decimal st = Convert.ToDecimal(stock[0].Prod_Stock);
+                    string date = DateTime.Now.Date.ToString("yyyy-MM-dd");
+                    var ps = new PEDIDO_SUGERIDO_PV
+                    {
+                        Prod_Id = Producto,
+                        Sucu_Id = "1",
+                        Prod_Stock = st,
+                        Prod_date = date,
+                        Pedi_Status = 0
+
+                    };
+                    db.PEDIDO_SUGERIDO_PV.Add(ps);
+                    db.SaveChanges();
+
+                }
+
+                int resta = s1 - Cant;
+                if (resta > 0)
+                {
+                    var producto = (from s in db.PRODUCTOS_PV
+                                    where s.Prod_Id == Producto
+                                    select s).FirstOrDefault();
+
+                    producto.Prod_Stock = resta;
+                    // producto.Ticket_Subtotal = Convert.ToInt32(lblTotal.Text);
+
+                    int num = db.SaveChanges();
+                }
+                else
+                {
+                    MessageBox.Show("No cuentas con stock suficiente");
+                }
+
+                var result = new PedidoSugerido
+                {
+                    add = resta
+                };
+                return result;
+
+            }
+
+           
+           
+        }
+
+        void pedido_sugerido(int Producto,int Cant,int Tipo)
+        {
+
+            if (Tipo == 1)
+            {
+                //var desc = db.sp_Stock_Paquete(Producto).ToList();
+                var desc = db.test_appdt(1).ToList();
+                var w = desc[0].Value;
+
+            }//si es venta por paquete
+            else
+            {
+                using (var ctx = new AppDTEntities())
+                {
+
+                    var stock = db.PRODUCTOS_PV.Where(a => a.Prod_Id == Producto).ToList();
+                    var s1 = Convert.ToInt32(stock[0].Prod_Stock);
+                    if (s1 <= 2)
+                    {
+                        decimal st = Convert.ToDecimal(stock[0].Prod_Stock);
+                        string date = DateTime.Now.Date.ToString("yyyy-MM-dd");
+                        var ps = new PEDIDO_SUGERIDO_PV
+                        {
+                            Prod_Id = Producto,
+                            Sucu_Id = "1",
+                            Prod_Stock = st,
+                            Prod_date = date,
+                            Pedi_Status = 0
+
+                        };
+                        db.PEDIDO_SUGERIDO_PV.Add(ps);
+                        db.SaveChanges();
+
+                    }
+
+                    int resta = s1 - Cant;
+                    if (resta > 0)
+                    {
+                        var producto = (from s in ctx.PRODUCTOS_PV
+                                        where s.Prod_Id == Producto
+                                        select s).FirstOrDefault();
+
+                        producto.Prod_Stock = resta;
+                        // producto.Ticket_Subtotal = Convert.ToInt32(lblTotal.Text);
+
+                        int num = ctx.SaveChanges();
+                    }
+                    else
+                    {
+                        MessageBox.Show("No cuentas con stock suficiente");
+                    }
+
+                }
+            }//si es solo
+
+        }
+
+        void agregaAventa(int Producto, int Precio, int Cant)
+        {
             try
             {
 
-                //revisa si es combo o producto
-                if (Tipo == 1){
-                    var desc = db.PAQUETE_DETALLE_PV.Where(a => a.Paqu_Id == product);
-                    foreach(var item in desc)
-                    {
-                        using (var ctx = new AppDTEntities())
-                        {
-                            int id = Convert.ToInt32(item.Prod_Id);
-                            var stock = db.PRODUCTOS_PV.Where(a => a.Prod_Id == id).ToList();
-                            int s1 = Convert.ToInt32(stock[0].Prod_Stock);
-                            int s2 = Convert.ToInt32(item.Prod_Cant);
-                            int resta =  s1-s2;
-                            if (resta > 0)
-                            {
-                                var producto = (from s in ctx.PRODUCTOS_PV
-                                                where s.Prod_Id ==id
-                                                select s).FirstOrDefault();
-
-                                producto.Prod_Stock = resta;
-                                // producto.Ticket_Subtotal = Convert.ToInt32(lblTotal.Text);
-
-                                int num = ctx.SaveChanges();
-                            }
-                            else
-                            {
-                                MessageBox.Show("No cuentas con stock suficiente");
-                            }
-
-
-                        }//resta por paquete
-                    }//foreach
-
-
-                }//si es venta por paquete
-                else
+                var Agrega = new VENTASTICKET_PV
                 {
+                    Prod_Id = Producto,
+                    Venta_Cantidad = Cant,
+                    Prod_Price = Precio,
+                    Venta_Importe = (Cant * Precio),
+                    Ticket_Id = idTicket
 
-                    var Agrega = new VENTASTICKET_PV
-                    {
-                        Prod_Id = product,
-                        Venta_Cantidad = cant,
-                        Prod_Price = precio,
-                        Venta_Importe = (cant * precio),
-                        Ticket_Id = idTicket
+                };
+                db.VENTASTICKET_PV.Add(Agrega);
+                db.SaveChanges();
 
-                    };
-                    db.VENTASTICKET_PV.Add(Agrega);
-                    db.SaveChanges();
-                    ///Resto a strock
-                    /// 
-                    using (var ctx = new AppDTEntities())
-                    {
-                        var stock = db.PRODUCTOS_PV.Where(a => a.Prod_Id == product).ToList();
-                        var s1 = Convert.ToInt32(stock[0].Prod_Stock);
-                        int resta = s1 - cant;
-                        if (resta > 0)
-                        {
-                            var producto = (from s in ctx.PRODUCTOS_PV
-                                            where s.Prod_Id == product
-                                            select s).FirstOrDefault();
-
-                            producto.Prod_Stock = resta;
-                            // producto.Ticket_Subtotal = Convert.ToInt32(lblTotal.Text);
-
-                            int num = ctx.SaveChanges();
-                        }
-                        else
-                        {
-                            MessageBox.Show("No cuentas con stock suficiente");
-                        }
-
-                    }
-                }//si es solo
+               
 
             }
             catch (Exception e)
@@ -258,10 +339,10 @@ namespace PVManagerAppDT
             ticket.AddHeaderLine("Cant.     Desc.     Importe");
             ticket.AddHeaderLine("\n");
             //ticket.AddHeaderLine("Articulo 2");
-            var reader = db.vis_fillTicket.Where(a => a.Ticket_Id == idTicket).ToList();
+            var reader = db.vis_fillTickets.Where(a => a.Ticket == idTicket).ToList();
             foreach (var tick in reader)
             {
-                ticket.AddHeaderLine(" " + tick.Venta_Cantidad + "      " + tick.Prod_Desc + "      $" + tick.Venta_Importe);
+                ticket.AddHeaderLine(" " + tick.Cantidad + "      " + tick.Descripcion + "      $" + tick.Importe);
                 ticket.AddHeaderLine("\n");
             }
 

@@ -25,18 +25,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="vis_fillTickets">
-      <EntityTypeMapping TypeName="AppDTModel.vis_fillTickets">
-        <MappingFragment StoreEntitySet="vis_fillTickets">
-          <ScalarProperty Name="Ticket" ColumnName="Ticket" />
-          <ScalarProperty Name="Importe" ColumnName="Importe" />
-          <ScalarProperty Name="Precio" ColumnName="Precio" />
-          <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
-          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="vis_fillProduct">
       <EntityTypeMapping TypeName="AppDTModel.vis_fillProduct">
         <MappingFragment StoreEntitySet="vis_fillProduct">
@@ -44,16 +32,6 @@
           <ScalarProperty Name="Prod_Id" ColumnName="Prod_Id" />
           <ScalarProperty Name="Venta_Cantidad" ColumnName="Venta_Cantidad" />
           <ScalarProperty Name="Prod_Desc" ColumnName="Prod_Desc" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="vis_fillTicket">
-      <EntityTypeMapping TypeName="AppDTModel.vis_fillTicket">
-        <MappingFragment StoreEntitySet="vis_fillTicket">
-          <ScalarProperty Name="Venta_Importe" ColumnName="Venta_Importe" />
-          <ScalarProperty Name="Prod_Desc" ColumnName="Prod_Desc" />
-          <ScalarProperty Name="Venta_Cantidad" ColumnName="Venta_Cantidad" />
-          <ScalarProperty Name="Ticket_Id" ColumnName="Ticket_Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -103,5 +81,31 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="PEDIDO_SUGERIDO_PV">
+      <EntityTypeMapping TypeName="AppDTModel.PEDIDO_SUGERIDO_PV">
+        <MappingFragment StoreEntitySet="PEDIDO_SUGERIDO_PV">
+          <ScalarProperty Name="Pedi_Status" ColumnName="Pedi_Status" />
+          <ScalarProperty Name="Prod_date" ColumnName="Prod_date" />
+          <ScalarProperty Name="Prod_Stock" ColumnName="Prod_Stock" />
+          <ScalarProperty Name="Prod_Id" ColumnName="Prod_Id" />
+          <ScalarProperty Name="Sucu_Id" ColumnName="Sucu_Id" />
+          <ScalarProperty Name="Pedi_Id" ColumnName="Pedi_Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vis_fillTickets">
+      <EntityTypeMapping TypeName="AppDTModel.vis_fillTickets">
+        <MappingFragment StoreEntitySet="vis_fillTickets">
+          <ScalarProperty Name="Ticket" ColumnName="Ticket" />
+          <ScalarProperty Name="Importe" ColumnName="Importe" />
+          <ScalarProperty Name="Precio" ColumnName="Precio" />
+          <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="test_appdt" FunctionName="AppDTModel.Store.test_appdt" />
+    <FunctionImportMapping FunctionImportName="sp_Stock_Paquete" FunctionName="AppDTModel.Store.sp_Stock_Paquete" />
   </EntityContainerMapping>
 </Mapping>

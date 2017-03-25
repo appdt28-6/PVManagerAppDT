@@ -174,9 +174,9 @@ namespace PVManagerAppDT
             ticket.AddHeaderLine("Cant.     Desc.     Importe");
             ticket.AddHeaderLine("\n");
             //ticket.AddHeaderLine("Articulo 2");
-            var reader = db.vis_fillTicket.Where(a => a.Ticket_Id == idTicket).ToList();
+            var reader = db.vis_fillTickets.Where(a => a.Ticket == idTicket).ToList();
             foreach(var tick in reader){
-                ticket.AddHeaderLine(" " + tick.Venta_Cantidad + "      " + tick.Prod_Desc + "      $" + tick.Venta_Importe);
+                ticket.AddHeaderLine(" " + tick.Cantidad + "      " + tick.Descripcion + "      $" + tick.Importe);
                 ticket.AddHeaderLine("\n");
             }
            
